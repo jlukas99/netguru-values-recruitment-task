@@ -1,14 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'core/config/pages.dart';
+import 'core/config/routes.dart';
+import 'core/const/msg.dart';
+import 'core/services/services.dart';
+import 'utils/theme.dart';
+import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+  await Services.initServices();
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  runApp(
+    GetMaterialApp(
+      translations: Msg(),
+      fallbackLocale: Locale("en", "US"),
+      theme: AppTheme.light,
+      initialRoute: RoutesName.SPLASH,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.system,
+      title: 'app_name'.tr,
+      builder: (_, widget) {
+        return GestureDetector(
+          onTap: () => Get.focusScope.unfocus(),
+          child: ResponsiveWrapper.builder(
+            BouncingScrollWrapper.builder(_, widget),
+            maxWidth: 1200,
+            minWidth: 450,
+            defaultScale: true,
+            breakpoints: [
+              ResponsiveBreakpoint.resize(450, name: MOBILE),
+              ResponsiveBreakpoint.autoScale(800,
+                  name: TABLET, scaleFactor: 1.25),
+              ResponsiveBreakpoint.autoScale(1000,
+                  name: TABLET, scaleFactor: 1.5),
+              ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+              ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+            ],
+          ),
+        );
+      },
+      getPages: Pages.pages,
+    ),
+  );
 }
