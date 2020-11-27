@@ -7,7 +7,7 @@ class StatusBar {
   static const LIGHT = false;
 
   static changeStatusBar(bool b) {
-    if (b) {
+    if (!b) {
       SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
