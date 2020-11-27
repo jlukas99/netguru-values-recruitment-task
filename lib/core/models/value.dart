@@ -3,12 +3,12 @@ import 'package:hive/hive.dart';
 part 'value.g.dart';
 
 @HiveType(typeId: 0)
-class Value {
+class ValueModel {
   @HiveField(0)
-  final String value;
+  final String text;
 
   @HiveField(1)
   bool isFavorite;
 
-  Value(this.value, {this.isFavorite});
+  ValueModel(this.text, {this.isFavorite = false});
 }

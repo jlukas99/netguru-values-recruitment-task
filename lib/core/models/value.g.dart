@@ -6,28 +6,28 @@ part of 'value.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ValueAdapter extends TypeAdapter<Value> {
+class ValueModelAdapter extends TypeAdapter<ValueModel> {
   @override
   final int typeId = 0;
 
   @override
-  Value read(BinaryReader reader) {
+  ValueModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Value(
+    return ValueModel(
       fields[0] as String,
       isFavorite: fields[1] as bool,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Value obj) {
+  void write(BinaryWriter writer, ValueModel obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.value)
+      ..write(obj.text)
       ..writeByte(1)
       ..write(obj.isFavorite);
   }
@@ -38,7 +38,7 @@ class ValueAdapter extends TypeAdapter<Value> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ValueAdapter &&
+      other is ValueModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
