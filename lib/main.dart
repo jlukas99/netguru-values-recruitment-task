@@ -22,6 +22,7 @@ void main() async {
       fallbackLocale: Locale("en", "US"),
       theme: AppTheme.light,
       defaultTransition: Transition.fade,
+      transitionDuration: Duration(seconds: 1),
       initialRoute: RoutesName.SPLASH,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
