@@ -17,8 +17,11 @@ void main() async {
   runApp(
     GetMaterialApp(
       translations: Msg(),
+      locale: Locale("en", "US"),
+      supportedLocales: [Locale("en", "US")],
       fallbackLocale: Locale("en", "US"),
       theme: AppTheme.light,
+      defaultTransition: Transition.fade,
       initialRoute: RoutesName.SPLASH,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
