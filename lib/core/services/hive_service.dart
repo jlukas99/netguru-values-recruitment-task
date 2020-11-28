@@ -37,16 +37,8 @@ class HiveService extends GetxService {
   Future<void> addNewValue(ValueModel valueModel) async =>
       setHiveValue(getHiveListValue()..add(valueModel));
 
-  Future<void> updateValue(
-      ValueModel newValueModel, ValueModel oldValueModel) async {
-    int index = getIndex(oldValueModel);
-
-    print(index);
-
-    await removeValue(oldValueModel);
-
-    await setHiveValue(getHiveListValue()..insert(index, newValueModel));
-  }
+  Future<void> updateValue(ValueModel valueModel) async => setHiveValue(
+      getHiveListValue()..insert(getIndex(valueModel), valueModel));
 
   Future<void> removeValue(ValueModel valueModel) async =>
       setHiveValue(getHiveListValue()..remove(valueModel));

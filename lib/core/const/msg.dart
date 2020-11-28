@@ -5,7 +5,7 @@ class Msg extends Translations {
   Map<String, Map<String, String>> get keys => const {
         'en_US': {
           'app_name': 'Netguru - Values',
-          'values': 'values',
+          'splash_values': 'values',
         },
       };
 }
