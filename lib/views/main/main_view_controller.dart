@@ -1,61 +1,69 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
-import 'package:netguru_values/core/models/value.dart';
-import 'package:netguru_values/core/services/hive_service.dart';
-import 'package:netguru_values/views/main/main_view_animation.dart';
+
+import '../../core/controllers/values_controller.dart';
+import '../../core/models/value.dart';
+import 'main_view_animation.dart';
 
 class MainController extends GetxController {
   Rx<ValueModel> currentValue;
 
-  HiveService hive = Get.find<HiveService>();
-  MainAnimationController animation = Get.find<MainAnimationController>();
-  Timer _timer;
+  ValuesController _valuesController = Get.find<ValuesController>();
+  MainAnimationController _animation = Get.find<MainAnimationController>();
 
-  int lastNumber;
+  List<int> _lastNumbers = [];
+
+  bool isStopped = true;
 
   setRandomValue() async {
-    int _max = hive.getHiveListValue().length - 1;
+    isStopped = false;
+    List<ValueModel> _values = _valuesController.getAllValues();
+    int _max = _values.length;
+    int _index = _max;
 
-    int _index = Random().nextInt(_max);
+    print("MAX: $_max");
 
-    while (lastNumber == _index) {
+    if (_index > 0) {
       _index = Random().nextInt(_max);
+
+      if (_lastNumbers.length >= _max) _lastNumbers.clear();
+
+      while (_lastNumbers.contains(_index)) {
+        _index = Random().nextInt(_max);
+      }
+    } else {
+      isStopped = true;
+      return currentValue.value = ValueModel(
+        "Add your own value, clicking button below",
+        isFavorite: null,
+      );
     }
 
-    lastNumber = _index;
+    _lastNumbers.add(_index);
 
-    ValueModel value = hive.getHiveListValue()[_index];
+    ValueModel value = _values[_index];
     currentValue.value = value;
 
     await Future.delayed(Duration(seconds: 5));
-    if (animation.controller != null && (animation.animation.status.index != 2))
-      animation.controller.forward();
+    if (_animation.controller != null &&
+        (_animation.animation.status.index != 2))
+      _animation.controller.forward();
   }
 
-  setFavoriteForValue() {
-    ValueModel newValue = ValueModel(currentValue.value.text,
-        isFavorite: !currentValue.value.isFavorite);
-
-    hive.updateValue(newValue, currentValue.value);
-
-    currentValue.value = newValue;
-  }
+  setFavoriteForValue() async => currentValue.value =
+      (await _valuesController.setFavoriteForValue(currentValue.value));
 
   @override
   void onInit() {
-    currentValue = ValueModel("").obs;
+    currentValue = ValueModel(
+      "Add your own value, clicking button below",
+      isFavorite: null,
+    ).obs;
 
     setRandomValue();
 
     super.onInit();
-  }
-
-  @override
-  void onClose() {
-    _timer?.cancel();
-    super.onClose();
   }
 }

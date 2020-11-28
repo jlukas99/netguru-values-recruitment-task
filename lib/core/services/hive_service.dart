@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:netguru_values/core/data/default_values.dart';
-import 'package:netguru_values/core/models/value.dart';
+
+import '../data/default_values.dart';
+import '../models/value.dart';
 
 class HiveService extends GetxService {
   Future<HiveService> init() async {
@@ -12,7 +13,7 @@ class HiveService extends GetxService {
     print("[Hive] register adapters");
     Hive.registerAdapter(ValueModelAdapter());
 
-    await Hive.deleteBoxFromDisk("values");
+    //Hive.deleteBoxFromDisk("values");
 
     print("[Hive] open boxes");
     await Hive.openBox("values");
@@ -41,17 +42,29 @@ class HiveService extends GetxService {
       ValueModel newValueModel, ValueModel oldValueModel) async {
     int index = getIndex(oldValueModel);
 
-    print(index);
-
     await removeValue(oldValueModel);
 
     await setHiveValue(getHiveListValue()..insert(index, newValueModel));
   }
 
-  Future<void> removeValue(ValueModel valueModel) async =>
+  Future<void> removeValue(ValueModel valueModel) async {
+    if (getHiveListValue().length == 1) {
+      setHiveValue(List<ValueModel>());
+    } else {
       setHiveValue(getHiveListValue()..remove(valueModel));
+    }
+  }
 
   int getIndex(ValueModel valueModel) => getHiveListValue().indexOf(valueModel);
 
-  List<ValueModel> getHiveListValue() => Hive.box('values').get('list');
+  List<ValueModel> getHiveListValue() {
+    List<dynamic> _list = Hive.box('values').get('list');
+    List<ValueModel> _values = List<ValueModel>();
+
+    for (dynamic value in _list) {
+      _values.add(value as ValueModel);
+    }
+
+    return _values;
+  }
 }

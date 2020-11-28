@@ -1,25 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get.dart';
-import 'package:netguru_values/core/const/tags.dart';
-import 'package:netguru_values/utils/colors.dart';
-import 'values_view_controller.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:netguru_values/core/widgets/add_our_value_bottom_sheet.dart';
+import 'package:netguru_values/core/widgets/swipeable_card.dart';
+import 'package:netguru_values/views/values/values_view_controller.dart';
 
-class ValuesView extends GetView<ValuesController> {
+import '../../core/const/tags.dart';
+import '../../utils/colors.dart';
+
+class ValuesView extends GetView<AllValuesController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: Get.find<ValuesController>(),
+      init: Get.find<AllValuesController>(),
       builder: (controller) => Scaffold(
         appBar: _appBar(controller),
-        // bottomNavigationBar: _navigaton(),
-        // body: _body(controller),
+        body: _body(controller, context),
       ),
     );
   }
 
-  Widget _appBar(ValuesController controller) => PreferredSize(
+  Widget _body(AllValuesController controller, BuildContext context) => Obx(
+        () => controller.allValues.isNullOrBlank
+            ? SizedBox()
+            : ListView.builder(
+                itemCount: controller.allValues.length,
+                padding: const EdgeInsets.all(16),
+                itemBuilder: (_, index) {
+                  return SwipeableCard(
+                    value: controller.allValues[index],
+                    index: index,
+                    callback: (int type) {
+                      switch (type) {
+                        case 0:
+                          return true;
+                          break;
+                        case 1:
+                          return null;
+                          break;
+                        case 2:
+                          return controller.allValues.removeAt(index);
+                          break;
+                        case 3:
+                          return null;
+                          break;
+                      }
+                    },
+                  );
+                },
+              ),
+      );
+
+  Widget _appBar(AllValuesController controller) => PreferredSize(
         child: SafeArea(
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 26),
@@ -64,7 +97,19 @@ class ValuesView extends GetView<ValuesController> {
                     Icons.add_rounded,
                     color: Clr.icon,
                   ),
-                  onPressed: () => Get.back(),
+                  onPressed: () async {
+                    await Get.bottomSheet(
+                      AddOurValueBottomSheet(),
+                      elevation: 6,
+                      backgroundColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(32)),
+                      ),
+                    );
+
+                    controller.getAllValues();
+                  },
                 ),
               ],
             ),

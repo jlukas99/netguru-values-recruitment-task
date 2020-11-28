@@ -33,9 +33,7 @@ class CustomFloatingActionButton extends StatelessWidget {
             size: 48,
           ),
         ),
-        onPressed: () {
-          //TODO: Bottom sheet with text field to adding our value
-        },
+        onPressed: onTap,
       ),
     );
   }

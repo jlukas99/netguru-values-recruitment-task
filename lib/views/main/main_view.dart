@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:netguru_values/core/config/routes.dart';
-import 'package:netguru_values/core/const/tags.dart';
-import 'package:netguru_values/core/widgets/bottom_navigation_icon.dart';
-import 'package:netguru_values/core/widgets/floating_action_button.dart';
-import 'package:netguru_values/utils/colors.dart';
-import 'package:netguru_values/views/main/main_view_animation.dart';
+
+import '../../core/const/tags.dart';
+import '../../core/routes/routes.dart';
+import '../../core/widgets/add_our_value_bottom_sheet.dart';
+import '../../core/widgets/bottom_navigation_icon.dart';
+import '../../core/widgets/floating_action_button.dart';
+import '../../utils/colors.dart';
+import 'main_view_animation.dart';
 import 'main_view_controller.dart';
 
 class MainView extends StatefulWidget {
@@ -32,8 +34,8 @@ class _MainViewState extends State<MainView>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print(state.index);
     if (state == AppLifecycleState.resumed) {
+      if (Get.isBottomSheetOpen) Get.back();
       Get.find<MainAnimationController>().controller.reset();
       await Future.delayed(Duration(seconds: 3));
       Get.find<MainAnimationController>().controller.forward();
@@ -78,7 +80,7 @@ class _MainViewState extends State<MainView>
                         '“${controller.currentValue.value.text}“',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.kalam(
-                          color: Get.context.theme.textTheme.bodyText1.color,
+                          color: context.theme.textTheme.bodyText1.color,
                           fontWeight: FontWeight.w500,
                           fontSize: 32,
                         ),
@@ -106,7 +108,17 @@ class _MainViewState extends State<MainView>
                   await Get.toNamed(RoutesName.VALUES);
                 },
               ),
-              CustomFloatingActionButton(() {}),
+              CustomFloatingActionButton(() {
+                Get.bottomSheet(
+                  AddOurValueBottomSheet(),
+                  elevation: 6,
+                  backgroundColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(32)),
+                  ),
+                );
+              }),
               BottomNavigationIcon(
                 text: "favorites",
                 icon: Icons.favorite_rounded,
@@ -142,7 +154,7 @@ class _MainViewState extends State<MainView>
                       TextSpan(
                         text: 'values'.tr,
                         style: TextStyle(
-                          color: Get.context.theme.textTheme.bodyText1.color,
+                          color: context.theme.textTheme.bodyText1.color,
                           fontWeight: FontWeight.w500,
                           fontSize: 20,
                         ),
@@ -161,16 +173,22 @@ class _MainViewState extends State<MainView>
                       child: CupertinoButton(
                         padding: EdgeInsets.all(0),
                         child: Obx(
-                          () => Icon(
-                            controller.currentValue.value.isFavorite
-                                ? Icons.favorite_rounded
-                                : Icons.favorite_outline_rounded,
-                            color: controller.currentValue.value.isFavorite
-                                ? Get.theme.primaryColor
-                                : Clr.icon,
-                          ),
+                          () => controller.currentValue.value.isFavorite == null
+                              ? SizedBox()
+                              : Icon(
+                                  controller.currentValue.value.isFavorite
+                                      ? Icons.favorite_rounded
+                                      : Icons.favorite_outline_rounded,
+                                  color:
+                                      controller.currentValue.value.isFavorite
+                                          ? Get.theme.primaryColor
+                                          : Clr.icon,
+                                ),
                         ),
-                        onPressed: () => controller.setFavoriteForValue(),
+                        onPressed: () =>
+                            controller.currentValue.value.isFavorite == null
+                                ? {}
+                                : controller.setFavoriteForValue(),
                       ),
                     );
                   },

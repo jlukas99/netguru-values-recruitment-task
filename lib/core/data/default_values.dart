@@ -1,4 +1,4 @@
-import 'package:netguru_values/core/models/value.dart';
+import '../models/value.dart';
 
 final List<ValueModel> defaultValue = [
   ValueModel("Exceed clients' and colleagues' expectations"),

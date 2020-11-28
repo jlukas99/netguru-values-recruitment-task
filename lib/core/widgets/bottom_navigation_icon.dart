@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:netguru_values/utils/colors.dart';
+
+import '../../utils/colors.dart';
 
 class BottomNavigationIcon extends StatelessWidget {
   final String text;

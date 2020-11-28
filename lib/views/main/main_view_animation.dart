@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:netguru_values/views/main/main_view_controller.dart';
+
+import 'main_view_controller.dart';
 
 class MainAnimationController extends GetxController {
   AnimationController controller;

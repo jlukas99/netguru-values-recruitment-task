@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'core/config/pages.dart';
-import 'core/config/routes.dart';
-import 'core/const/msg.dart';
-import 'core/services/services.dart';
-import 'utils/theme.dart';
 import 'package:get/get.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
+
+import 'core/const/msg.dart';
+import 'core/routes/pages.dart';
+import 'core/routes/routes.dart';
+import 'core/services/services.dart';
+import 'utils/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
