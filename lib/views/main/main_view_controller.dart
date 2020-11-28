@@ -23,8 +23,6 @@ class MainController extends GetxController {
     int _max = _values.length;
     int _index = _max;
 
-    print("MAX: $_max");
-
     if (_index > 0) {
       _index = Random().nextInt(_max);
 
@@ -36,7 +34,7 @@ class MainController extends GetxController {
     } else {
       isStopped = true;
       return currentValue.value = ValueModel(
-        "Add your own value, clicking button below",
+        'add_own_value'.tr,
         isFavorite: null,
       );
     }
@@ -58,7 +56,7 @@ class MainController extends GetxController {
   @override
   void onInit() {
     currentValue = ValueModel(
-      "Add your own value, clicking button below",
+      'add_own_value'.tr,
       isFavorite: null,
     ).obs;
 

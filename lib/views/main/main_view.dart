@@ -102,7 +102,7 @@ class _MainViewState extends State<MainView>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               BottomNavigationIcon(
-                text: "values",
+                text: 'values'.tr,
                 icon: Icons.format_quote_rounded,
                 onTap: () async {
                   await Get.toNamed(RoutesName.VALUES);
@@ -120,7 +120,7 @@ class _MainViewState extends State<MainView>
                 );
               }),
               BottomNavigationIcon(
-                text: "favorites",
+                text: 'favorites'.tr,
                 icon: Icons.favorite_rounded,
                 onTap: () async {
                   await Get.toNamed(RoutesName.FAVORITES);
@@ -144,7 +144,7 @@ class _MainViewState extends State<MainView>
                   child: RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: "Netguru | ",
+                        text: "${'netguru'.tr} | ",
                         style: TextStyle(
                           color: Get.context.theme.primaryColor,
                           fontWeight: FontWeight.w300,

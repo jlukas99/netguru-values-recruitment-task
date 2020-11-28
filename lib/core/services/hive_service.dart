@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -28,7 +29,11 @@ class HiveService extends GetxService {
   bool checkIfBoxIsNew() => Hive.box("values").length == 0 ? true : false;
 
   //If box is new create him with default values
-  createBoxWithDefaultData() => setHiveValue(defaultValue);
+  createBoxWithDefaultData() => setHiveValue(
+        Get.deviceLocale == Locale("pl", "PL")
+            ? defaultValuePL
+            : defaultValueEN,
+      );
 
   Future<void> clearBox(String name) async => await Hive.box(name).clear();
 

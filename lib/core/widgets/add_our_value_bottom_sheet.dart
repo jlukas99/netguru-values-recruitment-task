@@ -11,7 +11,8 @@ import 'dismiss_bar.dart';
 class AddOurValueBottomSheet extends StatelessWidget {
   final bool favorite;
 
-  const AddOurValueBottomSheet({Key key, this.favorite = false}) : super(key: key);
+  const AddOurValueBottomSheet({Key key, this.favorite = false})
+      : super(key: key);
 
   Widget build(BuildContext context) {
     return GetBuilder(
@@ -48,10 +49,13 @@ class AddOurValueBottomSheet extends StatelessWidget {
                     ),
                   ),
                 ),
-                FadeButton(
-                  text: "Add Value",
-                  onTap: () async => await controller.addValueToDB(favorite),
-                )
+                context.mediaQuery.viewInsets.bottom > 0
+                    ? SizedBox()
+                    : FadeButton(
+                        text: 'add_value'.tr,
+                        onTap: () async =>
+                            await controller.addValueToDB(favorite),
+                      )
               ],
             ),
           ),
@@ -67,7 +71,7 @@ class AddOurValueBottomSheet extends StatelessWidget {
           controller: controller.getValueTextController,
           cursorColor: context.theme.primaryColor,
           keyboardType: TextInputType.text,
-          placeholder: "Enter your value",
+          placeholder: 'enter_value'.tr,
           textAlign: TextAlign.center,
           maxLines: 99,
           minLines: 1,

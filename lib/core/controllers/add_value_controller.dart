@@ -20,13 +20,12 @@ class AddOurValueController extends GetxController {
       Get.back();
 
       Get.showSnackbar(
-          getCustomBar("Your value was add!", Get.theme.primaryColor));
+          getCustomBar('sucessfully_add_value'.tr, Get.theme.primaryColor));
 
       if (Get.find<MainController>().isStopped)
         Get.find<MainController>().setRandomValue();
-
     } else {
-      Get.showSnackbar(getCustomBar("Please, enter your value", Colors.red));
+      Get.showSnackbar(getCustomBar('error_add_value'.tr, Colors.red));
     }
   }
 
@@ -40,6 +39,9 @@ class AddOurValueController extends GetxController {
         messageText: Text(
           text,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+          ),
         ),
         duration: Duration(seconds: 3),
       );

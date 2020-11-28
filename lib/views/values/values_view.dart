@@ -37,6 +37,7 @@ class ValuesView extends GetView<AllValuesController> {
                           return true;
                           break;
                         case 1:
+                          controller.reloadAllValues();
                           return null;
                           break;
                         case 2:
@@ -73,7 +74,7 @@ class ValuesView extends GetView<AllValuesController> {
                   child: RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: "All ",
+                        text: "${'all'.tr} ",
                         style: TextStyle(
                           color: Get.context.theme.primaryColor,
                           fontWeight: FontWeight.w500,

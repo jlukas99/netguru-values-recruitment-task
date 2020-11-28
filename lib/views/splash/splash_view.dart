@@ -17,7 +17,7 @@ class SplashView extends GetView<SplashController> {
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
-                  text: "Netguru | ",
+                  text: "${'netguru'.tr} | ",
                   style: TextStyle(
                     color: context.theme.primaryColor,
                     fontWeight: FontWeight.w300,

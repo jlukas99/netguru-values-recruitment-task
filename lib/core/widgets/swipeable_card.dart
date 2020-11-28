@@ -66,7 +66,9 @@ class SwipeableCard extends StatelessWidget {
                   width: 8,
                 ),
                 Text(
-                  "Remove from favorites",
+                  value.isFavorite
+                      ? 'remove_favorite'.tr
+                      : 'add_favorite'.tr,
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,

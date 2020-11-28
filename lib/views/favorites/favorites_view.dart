@@ -75,7 +75,7 @@ class FavoritesView extends GetView<FavoritesController> {
                   child: RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: "Favorites ",
+                        text: "${'favorites'.tr} ",
                         style: TextStyle(
                           color: Get.context.theme.primaryColor,
                           fontWeight: FontWeight.w500,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -18,16 +19,30 @@ void main() async {
   runApp(
     GetMaterialApp(
       translations: Msg(),
-      locale: Locale("en", "US"),
-      supportedLocales: [Locale("en", "US")],
-      fallbackLocale: Locale("en", "US"),
+      translationsKeys: Msg().keys,
+      supportedLocales: [
+        const Locale('pl', 'PL'),
+        const Locale('en', 'US'),
+      ],
+      locale: Get.locale,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      fallbackLocale: Locale('en', 'US'),
+      localeResolutionCallback: (deviceLocale, supportedLocales) {
+        Get.updateLocale(deviceLocale);
+        return;
+      },
       theme: AppTheme.light,
       defaultTransition: Transition.fade,
       transitionDuration: Duration(seconds: 1),
       initialRoute: RoutesName.SPLASH,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      title: 'app_name'.tr,
+      //title: 'app_name'.tr,
+      debugShowCheckedModeBanner: false,
       builder: (_, widget) {
         return GestureDetector(
           onTap: () => Get.focusScope.unfocus(),
