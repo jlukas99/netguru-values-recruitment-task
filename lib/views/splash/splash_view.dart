@@ -25,7 +25,7 @@ class SplashView extends GetView<SplashController> {
                   ),
                 ),
                 TextSpan(
-                  text: 'splash_values'.tr,
+                  text: 'values'.tr,
                   style: TextStyle(
                     color: context.theme.textTheme.bodyText1.color,
                     fontWeight: FontWeight.w500,
